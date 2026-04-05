@@ -9,6 +9,7 @@ from plugins.base_plugin import PluginBase, SearchResult
 class DictionaryPlugin(PluginBase):
     id = "dictionary"
     name = "Dictionary"
+    prefix_alias = "def"
 
     def __init__(self):
         self._cache = {}

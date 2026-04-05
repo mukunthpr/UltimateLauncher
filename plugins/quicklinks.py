@@ -6,6 +6,7 @@ from plugins.base_plugin import PluginBase, SearchResult
 class QuicklinksPlugin(PluginBase):
     id = "quicklinks"
     name = "Quicklinks"
+    prefix_alias = "ql"
 
     def __init__(self):
         super().__init__()

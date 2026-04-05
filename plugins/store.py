@@ -12,6 +12,7 @@ from plugins.base_plugin import PluginBase, SearchResult
 class PluginStore(PluginBase):
     id = "plugin_store"
     name = "Plugin Store"
+    prefix_alias = "pm"
 
     def __init__(self):
         self.manifest_url = "https://raw.githubusercontent.com/Flow-Launcher/Flow.Launcher.PluginsManifest/plugin_api_v2/plugins.json"

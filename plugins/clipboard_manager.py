@@ -6,6 +6,7 @@ import time
 class ClipboardPlugin(PluginBase):
     id = "clipboard"
     name = "Clipboard History"
+    prefix_alias = "clip"
 
     def __init__(self):
         super().__init__()

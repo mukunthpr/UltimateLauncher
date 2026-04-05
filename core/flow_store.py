@@ -59,6 +59,14 @@ class FlowStoreAPI:
                 with zipfile.ZipFile(temp_zip, 'r') as zip_ref:
                     zip_ref.extractall(target_dir)
                     
+                import shutil
+                contents = os.listdir(target_dir)
+                if len(contents) == 1 and os.path.isdir(os.path.join(target_dir, contents[0])):
+                    sub_dir = os.path.join(target_dir, contents[0])
+                    for item in os.listdir(sub_dir):
+                        shutil.move(os.path.join(sub_dir, item), target_dir)
+                    os.rmdir(sub_dir)
+                    
                 # Walk down the root recursively to natively compile requirements!
                 import sys
                 import subprocess

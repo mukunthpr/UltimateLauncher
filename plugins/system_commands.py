@@ -5,6 +5,7 @@ from plugins.base_plugin import PluginBase, SearchResult
 class SystemCommandsPlugin(PluginBase):
     id = "system_commands"
     name = "System Commands"
+    prefix_alias = "sys"
 
     def __init__(self):
         super().__init__()

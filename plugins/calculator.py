@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QApplication, QStyle
 class CalculatorPlugin(PluginBase):
     id = "calculator"
     name = "Calculator"
+    prefix_alias = "="
 
     def __init__(self):
         # Allow basic math characters only

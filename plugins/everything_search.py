@@ -7,6 +7,7 @@ from PyQt6.QtCore import QFileInfo
 class EverythingSearchPlugin(PluginBase):
     id = "everything_search"
     name = "Everything File Search"
+    prefix_alias = "f"
 
     def query(self, text: str):
         text = text.strip()

@@ -4,6 +4,7 @@ from plugins.base_plugin import PluginBase, SearchResult
 class ConversionsPlugin(PluginBase):
     id = "conversions"
     name = "Data Conversions"
+    prefix_alias = "cv"
 
     def __init__(self):
         super().__init__()
