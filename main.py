@@ -68,7 +68,7 @@ def main():
     
     tray_menu.addSeparator()
     
-    quit_action = tray_menu.addAction("Quit UltimateLauncher")
+    quit_action = tray_menu.addAction("Quit Ultimate Launcher")
     quit_action.triggered.connect(app.quit)
     
     tray_icon.setContextMenu(tray_menu)

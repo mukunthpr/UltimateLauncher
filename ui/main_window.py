@@ -196,7 +196,7 @@ class LauncherWindow(QWidget):
         search_layout.setContentsMargins(16, 12, 16, 12)
         search_layout.setSpacing(12)
         
-        # Procedurally fetch the original UltimateLauncher logo and mask it
+        # Procedurally fetch the original Ultimate Launcher logo and mask it
         import os
         
         logo_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "icon.png")
@@ -311,7 +311,7 @@ class LauncherWindow(QWidget):
         if query_text in ["setting", "settings", "config", "preferences", "options"]:
             if hasattr(self, 'settings_window'):
                 results.append(SearchResult(
-                    title="UltimateLauncher Settings",
+                    title="Ultimate Launcher Settings",
                     subtitle="Configure hotkeys, behavior, and plugins",
                     icon=None,
                     score=200,

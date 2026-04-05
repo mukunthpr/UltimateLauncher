@@ -39,7 +39,7 @@ class SettingsWindow(QWidget):
         self.setAttribute(Qt.WidgetAttribute.WA_QuitOnClose, False)
         
         self.reg_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
-        self.app_name = "UltimateLauncher"
+        self.app_name = "Ultimate Launcher"
 
         self.init_ui()
 
@@ -49,7 +49,7 @@ class SettingsWindow(QWidget):
         
         reply = QMessageBox.question(
             self, title, 
-            message + "\n\nWould you like to automatically restart UltimateLauncher now?",
+            message + "\n\nWould you like to automatically restart Ultimate Launcher now?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.Yes
         )
@@ -179,7 +179,7 @@ class SettingsWindow(QWidget):
     def on_update_available(self, version, desc):
         reply = QMessageBox.question(
             self,
-            "UltimateLauncher Update",
+            "Ultimate Launcher Update",
             f"A new version ({version}) has been deployed to GitHub.\n\nDescription:\n{desc}\n\nDo you want to securely fetch and install it now?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.Yes
@@ -187,7 +187,7 @@ class SettingsWindow(QWidget):
         if reply == QMessageBox.StandardButton.Yes:
             self.settings_msg = QMessageBox(self)
             self.settings_msg.setWindowTitle("Updating")
-            self.settings_msg.setText(f"Synchronizing payload bindings from native repository... Do not close UltimateLauncher.")
+            self.settings_msg.setText(f"Synchronizing payload bindings from native repository... Do not close Ultimate Launcher.")
             self.settings_msg.setStandardButtons(QMessageBox.StandardButton.NoButton)
             self.settings_msg.show()
             self.updater.install_update()
@@ -197,7 +197,7 @@ class SettingsWindow(QWidget):
             self.settings_msg.accept()
             
         if success:
-            self._prompt_restart("Update Complete", msg + "\n\nUltimateLauncher must execute an OS execution swap loop to map the newest logic gracefully. Proceed?")
+            self._prompt_restart("Update Complete", msg + "\n\nUltimate Launcher must execute an OS execution swap loop to map the newest logic gracefully. Proceed?")
         else:
             QMessageBox.critical(self, "Update Failed", msg)
 
@@ -284,7 +284,7 @@ class SettingsWindow(QWidget):
         layout.addWidget(title)
         
         layout.addSpacing(15)
-        layout.addWidget(QLabel("A 'Hyperkey' maps Caps Lock to (Ctrl + Shift + Alt + Win),\ngiving you a pristine modifier for UltimateLauncher search natively."))
+        layout.addWidget(QLabel("A 'Hyperkey' maps Caps Lock to (Ctrl + Shift + Alt + Win),\ngiving you a pristine modifier for Ultimate Launcher search natively."))
         
         layout.addSpacing(20)
         layout.addWidget(QLabel("To bind your Caps Lock to Hyperkey effortlessly:"))
@@ -460,7 +460,7 @@ class SettingsWindow(QWidget):
             logo_label.setPixmap(pixmap)
         layout.addWidget(logo_label)
 
-        title = QLabel("UltimateLauncher v1.0")
+        title = QLabel("Ultimate Launcher v1.0")
         title.setStyleSheet("font-size: 24px; font-weight: bold; color: white; margin-top: 10px;")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         

@@ -1,6 +1,6 @@
 <p align="center">
   <img src="assets/icon.png" width="128" height="128" />
-  <h1 align="center">UltimateLauncher</h1>
+  <h1 align="center">Ultimate Launcher</h1>
   <p align="center">A high-performance, desktop launcher utilizing native Python bindings and Qt pipelines, bringing extensive Spotlight-style command control natively to Windows.</p>
 </p>
 
@@ -14,7 +14,7 @@
 
 ## 🚀 Installation & Quick Start
 
-UltimateLauncher executes directly from source via your system's Python distribution, enabling highly aggressive extensibility natively.
+Ultimate Launcher executes directly from source via your system's Python distribution, enabling highly aggressive extensibility natively.
 
 ```bash
 # 1. Clone the repository
