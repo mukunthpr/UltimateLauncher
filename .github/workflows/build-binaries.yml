@@ -44,8 +44,8 @@ jobs:
       - name: Compile Inno Setup Installer (Windows)
         if: runner.os == 'Windows'
         run: |
-          # Use the pre-installed Inno Setup compiler available on GitHub Actions windows-latest runners natively
-          iscc build_installer.iss
+          # The global PATH variable inside GitHub runner doesn't instinctively expose Inno Setup inherently. We map it distinctly!
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" build_installer.iss
 
       - name: Prepare Upload Artifact (Windows)
         if: runner.os == 'Windows'
