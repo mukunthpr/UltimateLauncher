@@ -12,9 +12,21 @@
 - **Automated Update Subsystem**: Connects directly to the GitHub Release API to seamlessly deploy `.zip` payloads backwards over local code execution environments without destroying personal user config states or registry keys.
 - **Theme Transpiler**: Directly mathematically transpiles XAML and JSON styles (from standard Flow community themes) into active global PyQt6 CSS overrides asynchronously on launch.
 
-## 🚀 Installation & Quick Start
+## 🚀 Download & Installation
 
-Ultimate Launcher executes directly from source via your system's Python distribution, enabling highly aggressive extensibility natively.
+The fastest way to install Ultimate Launcher is to download the natively compiled standalone installer directly from the GitHub Releases tab! No Python environment required.
+
+- **[Download Windows Installer (.exe)](https://github.com/mukunthpr/UltimateLauncher/releases/latest)**
+- **[Download MacOS Archive (.tar.gz)](https://github.com/mukunthpr/UltimateLauncher/releases/latest)**
+- **[Download Linux Executable (.tar.gz)](https://github.com/mukunthpr/UltimateLauncher/releases/latest)**
+
+*(Note: Apple MacOS users may inherently need to authorize the application actively via System Settings > Security as the current build drops un-Notarized.)*
+
+---
+
+## 🛠️ Build from Source (Developer Mode)
+
+Ultimate Launcher can also execute directly from source via your system's Python distribution, enabling highly aggressive extensibility natively.
 
 ```bash
 # 1. Clone the repository
