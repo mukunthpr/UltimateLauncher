@@ -16,7 +16,7 @@ class AutoUpdater(QObject):
     update_available = pyqtSignal(str, str) # version, description
     update_finished = pyqtSignal(bool, str)
 
-    def __init__(self, repo_identifier="Mukunth/UltimateLauncher"):
+    def __init__(self, repo_identifier="mukunthpr/UltimateLauncher"):
         super().__init__()
         self.repo = repo_identifier
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
