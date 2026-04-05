@@ -431,6 +431,8 @@ class SettingsWindow(QWidget):
                         QTimer.singleShot(0, lambda: self._prompt_restart("Plugin Installed", "The package was successfully extracted natively."))
                     else: 
                         btn.setText("Failed")
+                        from PyQt6.QtCore import QTimer
+                        QTimer.singleShot(0, lambda: QMessageBox.critical(self, "Download Failed", f"The original Flow Registry author's GitHub endpoint is broken or unreachable:\n\n{msg}"))
                 fs.install_plugin_async(meta, _cb)
                 
             dl_btn.clicked.connect(_install_curried)

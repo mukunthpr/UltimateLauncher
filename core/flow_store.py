@@ -43,7 +43,10 @@ class FlowStoreAPI:
                 temp_zip = os.path.join(tempfile.gettempdir(), f"{plugin_id}.zip")
                 
                 # Download
-                req = urllib.request.Request(download_url, headers={'User-Agent': 'Mozilla/5.0'})
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
+                }
+                req = urllib.request.Request(download_url, headers=headers)
                 with urllib.request.urlopen(req, timeout=15) as response, open(temp_zip, 'wb') as out_file:
                     out_file.write(response.read())
                     
