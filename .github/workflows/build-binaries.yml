@@ -43,14 +43,16 @@ jobs:
 
       - name: Compile Inno Setup Installer (Windows)
         if: runner.os == 'Windows'
-        run: |
-          # The global PATH variable inside GitHub runner doesn't instinctively expose Inno Setup inherently. We map it distinctly!
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" build_installer.iss
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.4
+        with:
+          path: build_installer.iss
+          options: /Qp
 
       - name: Prepare Upload Artifact (Windows)
         if: runner.os == 'Windows'
         run: |
-          move dist\setup\UltimateLauncher_Setup.exe UltimateLauncher-Windows-x64-Setup.exe
+          # Use powershell syntax inherently
+          Move-Item -Path "dist\setup\UltimateLauncher_Setup.exe" -Destination "UltimateLauncher-Windows-x64-Setup.exe"
 
       - name: Prepare Upload Artifact (macOS)
         if: runner.os == 'macOS'
