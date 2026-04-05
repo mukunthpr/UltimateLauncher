@@ -431,7 +431,7 @@ class SettingsWindow(QWidget):
             
             proxy.done.connect(_handle_result)
             
-            def _install_curried(meta=p, btn=dl_btn, px=proxy):
+            def _install_curried(checked=False, meta=p, btn=dl_btn, px=proxy):
                 btn.setText("Downloading...")
                 btn.setEnabled(False)
                 from core.flow_store import FlowStoreAPI
