@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, 
                              QLabel, QCheckBox, QLineEdit, QPushButton, 
                              QMessageBox, QScrollArea, QListWidget, QStackedWidget,
-                             QListWidgetItem, QApplication)
+                             QListWidgetItem, QApplication, QFileDialog)
 from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QObject
 from PyQt6.QtGui import QFont, QPixmap, QIcon
 import os
@@ -323,8 +323,12 @@ class SettingsWindow(QWidget):
         apply_btn = QPushButton("Apply Active Theme")
         apply_btn.clicked.connect(self._apply_theme)
         
+        import_btn = QPushButton("Import Custom Theme")
+        import_btn.clicked.connect(self._import_theme)
+        
         layout.addWidget(self.theme_list)
         layout.addWidget(apply_btn)
+        layout.addWidget(import_btn)
         return page
 
     def _apply_theme(self):
@@ -333,6 +337,22 @@ class SettingsWindow(QWidget):
             theme_name = item.text()
             self.config_manager.set("active_theme", theme_name)
             self._prompt_restart("Theme Applied", f"Active theme implicitly updated to '{theme_name}'.")
+
+    def _import_theme(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, "Import Flow Theme", "", "Theme Files (*.xaml *.json)")
+        if file_path:
+            try:
+                import shutil
+                theme_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "themes")
+                if not os.path.exists(theme_dir):
+                    os.makedirs(theme_dir)
+                dist = os.path.join(theme_dir, os.path.basename(file_path))
+                shutil.copy2(file_path, dist)
+                
+                self.theme_list.addItem(os.path.basename(file_path))
+                QMessageBox.information(self, "Theme Imported", f"Successfully linked {os.path.basename(file_path)} into the execution tree.")
+            except Exception as e:
+                QMessageBox.critical(self, "Import Failed", f"Critical disk failure while bypassing: {e}")
 
     def _build_store_tab(self):
         page = QWidget()
@@ -464,7 +484,8 @@ class SettingsWindow(QWidget):
         title.setStyleSheet("font-size: 24px; font-weight: bold; color: white; margin-top: 10px;")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        desc = QLabel("Made by Mukunth P.R, built on Python, open source.")
+        desc = QLabel("Made by Mukunth P.R, built on Python, open source.<br><br><b>GitHub:</b> <a href='https://github.com/mukunthpr/UltimateLauncher' style='color:#7AA2F7;'>mukunthpr/UltimateLauncher</a>")
+        desc.setOpenExternalLinks(True)
         desc.setAlignment(Qt.AlignmentFlag.AlignCenter)
         desc.setStyleSheet("color: #8C8C8C; font-size: 14px;")
         
