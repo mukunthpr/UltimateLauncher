@@ -59,6 +59,23 @@ class FlowStoreAPI:
                 with zipfile.ZipFile(temp_zip, 'r') as zip_ref:
                     zip_ref.extractall(target_dir)
                     
+                # Walk down the root recursively to natively compile requirements!
+                import sys
+                import subprocess
+                for root, dirs, files in os.walk(target_dir):
+                    if "requirements.txt" in files:
+                        req_path = os.path.join(root, "requirements.txt")
+                        try:
+                            # Isolate stdout and map execution gracefully to Python's nested venv 
+                            subprocess.run(
+                                [sys.executable, "-m", "pip", "install", "-r", req_path],
+                                cwd=root,
+                                capture_output=True,
+                                creationflags=subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+                            )
+                        except Exception:
+                            pass
+                    
                 # Clean up memory leak vectors
                 try:
                     os.remove(temp_zip)

@@ -81,8 +81,18 @@ class FlowPluginBridge(PluginBase):
         if not text:
             return []
             
+        prefix = getattr(self, "prefix_alias", "").strip()
+        query_text = text
+        
+        # In the Flow Launcher specification, plugins are only queried if their explicit ActionKeyword strictly matches (unless wildcarded)
+        # Additionally, the API specification strictly mandates the prefix be stripped locally prior to forwarding the execution args
+        if prefix and prefix != "*":
+            if not text.lower().startswith(prefix.lower()):
+                return []
+            query_text = text[len(prefix):].strip()
+            
         # Fire proxy
-        raw_results = self._execute_rpc("query", [text])
+        raw_results = self._execute_rpc("query", [query_text])
         parsed = []
         
         for idx, item in enumerate(raw_results):
