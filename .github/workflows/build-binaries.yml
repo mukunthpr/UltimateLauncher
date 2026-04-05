@@ -71,6 +71,7 @@ jobs:
         if: runner.os == 'Windows'
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'Continuous-Build' }}
           files: UltimateLauncher-Windows-x64-Setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -79,6 +80,7 @@ jobs:
         if: runner.os == 'macOS'
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'Continuous-Build' }}
           files: UltimateLauncher-macOS-x64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -87,6 +89,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'Continuous-Build' }}
           files: UltimateLauncher-Linux-x64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
