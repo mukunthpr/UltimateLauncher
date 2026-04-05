@@ -1,0 +1,26 @@
+# Python Standard Executables
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Testing & Logs
+crash.log
+*.log
+
+# Caching & Venvs
+.venv/
+venv/
+env/
+.env
+
+# UltimateLauncher Specific Configurations
+config.json
+version.json
+
+# Exclude community third-party plugins downloaded through Flow Registry
+plugins/Flow.Launcher.Plugin.*/
+
+# OS Gen
+.DS_Store
+Thumbs.db
