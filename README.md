@@ -1,7 +1,7 @@
 <p align="center">
   <img src="assets/icon.png" width="128" height="128" />
   <h1 align="center">UltimateLauncher</h1>
-  <p align="center">A high-performance, Raycast-equivalent desktop launcher utilizing native Python bindings and Qt pipelines, bringing extensive Spotlight-style command control natively to Windows.</p>
+  <p align="center">A high-performance, desktop launcher utilizing native Python bindings and Qt pipelines, bringing extensive Spotlight-style command control natively to Windows.</p>
 </p>
 
 ## ✨ Features
