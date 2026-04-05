@@ -56,19 +56,18 @@ jobs:
           tar -czf UltimateLauncher-Linux-x64.tar.gz UltimateLauncher
           mv UltimateLauncher-Linux-x64.tar.gz ../
 
-      - name: Compile Inno Setup Installer (Windows)
+      - name: Prepare Upload Artifact (Windows)
         if: runner.os == 'Windows'
-        uses: Minionguyjpro/Inno-Setup-Action@v1.2.4
-        with:
-          path: build_installer.iss
-          options: /Qp
+        run: |
+          # Compress the raw PyInstaller outputs explicitly directly natively circumventing rigid Inno Setup pipelines!
+          Compress-Archive -Path "dist\UltimateLauncher" -DestinationPath "UltimateLauncher-Windows-x64.zip"
 
       - name: Upload Windows Asset
         if: runner.os == 'Windows'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'Continuous-Build' }}
-          files: dist\setup\UltimateLauncher_Setup.exe
+          files: UltimateLauncher-Windows-x64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

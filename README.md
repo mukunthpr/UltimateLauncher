@@ -16,7 +16,7 @@
 
 The fastest way to install Ultimate Launcher is to download the natively compiled standalone installer directly from the GitHub Releases tab! No Python environment required.
 
-- **[Download Windows Installer (.exe)](https://github.com/mukunthpr/UltimateLauncher/releases/latest)**
+- **[Download Windows Portable (.zip)](https://github.com/mukunthpr/UltimateLauncher/releases/latest)**
 - **[Download MacOS Archive (.tar.gz)](https://github.com/mukunthpr/UltimateLauncher/releases/latest)**
 - **[Download Linux Executable (.tar.gz)](https://github.com/mukunthpr/UltimateLauncher/releases/latest)**
 
