@@ -23,6 +23,9 @@ class StoreFetcher(QObject):
                 self.finished.emit([])
         threading.Thread(target=_pull, daemon=True).start()
 
+class PluginInstallSignal(QObject):
+    done = pyqtSignal(bool, str)
+
 class SettingsWindow(QWidget):
     def __init__(self, config_manager, hotkey_manager, plugin_mgr=None):
         super().__init__()
@@ -416,23 +419,25 @@ class SettingsWindow(QWidget):
             info.addWidget(d)
             
             dl_btn = QPushButton("Install")
-            def _install_curried(meta=p, btn=dl_btn):
+            
+            proxy = PluginInstallSignal()
+            def _handle_result(success, msg, btn=dl_btn):
+                if success:
+                    btn.setText("Installed")
+                    self._prompt_restart("Plugin Installed", "The package was successfully extracted natively.")
+                else:
+                    btn.setText("Failed")
+                    QMessageBox.critical(self, "Download Failed", f"The original Flow Registry API target is broken natively or actively rejecting connections:\n\n{msg}")
+            
+            proxy.done.connect(_handle_result)
+            
+            def _install_curried(meta=p, btn=dl_btn, px=proxy):
                 btn.setText("Downloading...")
                 btn.setEnabled(False)
                 from core.flow_store import FlowStoreAPI
                 fs = FlowStoreAPI()
-                # Callback ignores thread rule, but text set happens async safely sometimes. 
-                # Proper fix involves QRunnable, skipping for scope matrix
                 def _cb(success, msg):
-                    if success: 
-                        btn.setText("Installed")
-                        from PyQt6.QtCore import QTimer
-                        # Push the modal spawn request back onto the primary Event Loop safely
-                        QTimer.singleShot(0, lambda: self._prompt_restart("Plugin Installed", "The package was successfully extracted natively."))
-                    else: 
-                        btn.setText("Failed")
-                        from PyQt6.QtCore import QTimer
-                        QTimer.singleShot(0, lambda: QMessageBox.critical(self, "Download Failed", f"The original Flow Registry author's GitHub endpoint is broken or unreachable:\n\n{msg}"))
+                    px.done.emit(success, msg)
                 fs.install_plugin_async(meta, _cb)
                 
             dl_btn.clicked.connect(_install_curried)
