@@ -8,6 +8,8 @@ import os
 import sys
 import winreg
 import threading
+import subprocess
+from core.updater import AutoUpdater
 
 class StoreFetcher(QObject):
     finished = pyqtSignal(list)
@@ -27,6 +29,10 @@ class SettingsWindow(QWidget):
         self.config_manager = config_manager
         self.hotkey_manager = hotkey_manager
         self.plugin_manager = plugin_mgr
+        
+        self.updater = AutoUpdater()
+        self.updater.update_available.connect(self.on_update_available)
+        self.updater.update_finished.connect(self.on_update_finished)
         
         self.setWindowTitle("Settings")
         self.setFixedSize(760, 520)
@@ -170,6 +176,31 @@ class SettingsWindow(QWidget):
         self.sidebar.addItem(item)
         self.stack.addWidget(widget)
 
+    def on_update_available(self, version, desc):
+        reply = QMessageBox.question(
+            self,
+            "UltimateLauncher Update",
+            f"A new version ({version}) has been deployed to GitHub.\n\nDescription:\n{desc}\n\nDo you want to securely fetch and install it now?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.Yes
+        )
+        if reply == QMessageBox.StandardButton.Yes:
+            self.settings_msg = QMessageBox(self)
+            self.settings_msg.setWindowTitle("Updating")
+            self.settings_msg.setText(f"Synchronizing payload bindings from native repository... Do not close UltimateLauncher.")
+            self.settings_msg.setStandardButtons(QMessageBox.StandardButton.NoButton)
+            self.settings_msg.show()
+            self.updater.install_update()
+
+    def on_update_finished(self, success, msg):
+        if hasattr(self, 'settings_msg'):
+            self.settings_msg.accept()
+            
+        if success:
+            self._prompt_restart("Update Complete", msg + "\n\nUltimateLauncher must execute an OS execution swap loop to map the newest logic gracefully. Proceed?")
+        else:
+            QMessageBox.critical(self, "Update Failed", msg)
+
     def _build_general_tab(self):
         page = QWidget()
         layout = QVBoxLayout(page)
@@ -211,7 +242,23 @@ class SettingsWindow(QWidget):
         btn = QPushButton("Bind")
         btn.clicked.connect(self.apply_hotkey)
         hl.addWidget(btn)
-        layout.addWidget(hotkey_box)
+        
+        # Option: Automatic Updates
+        update_box = QWidget()
+        ul = QHBoxLayout(update_box)
+        ul.setContentsMargins(0, 0, 0, 0)
+        
+        version_label = QLabel(f"Version: v{self.updater.get_local_version()}")
+        version_label.setStyleSheet("color: #8C8C8C; font-size: 13px;")
+        ul.addWidget(version_label)
+        
+        ul.addStretch()
+        check_btn = QPushButton("Check for Updates")
+        check_btn.setFixedWidth(130)
+        check_btn.clicked.connect(self.updater.check_for_updates)
+        ul.addWidget(check_btn)
+        
+        layout.addWidget(update_box)
         
         layout.addStretch()
         return page

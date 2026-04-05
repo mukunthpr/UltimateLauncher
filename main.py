@@ -47,6 +47,9 @@ def main():
     settings_win = SettingsWindow(config_mgr, hotkey_mgr, plugin_mgr)
     window.settings_window = settings_win
     
+    # Silently check for GitHub releases on application startup
+    settings_win.updater.check_for_updates()
+    
     # Setup User Icon
     from PyQt6.QtGui import QIcon
     icon_path = os.path.join(os.path.dirname(__file__), "assets", "icon.png")

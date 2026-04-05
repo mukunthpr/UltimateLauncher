@@ -6,7 +6,7 @@
 
 ## ✨ Features
 
-- **Raycast UI Parity**: Clean, minimalistic, keyboard-first user interface sporting fluid component rendering, contextual actions, and asynchronous non-blocking search algorithms.
+- **Feauture 1**: Clean, minimalistic, keyboard-first user interface sporting fluid component rendering, contextual actions, and asynchronous non-blocking search algorithms.
 - **Deep Plugin Ecosystem**: Native compatibility with the [Flow Launcher](https://github.com/Flow-Launcher/Flow.Launcher) registry. Download, extract, and execute C#/Python community extensions spanning calculators, clipboard managers, web searchers, and dictionary definitions all completely natively.
 - **Advanced Contextual Math Engine**: Dedicated complex equation evaluator rendering customized large-scale widget panels seamlessly outside standard list bindings.
 - **Automated Update Subsystem**: Connects directly to the GitHub Release API to seamlessly deploy `.zip` payloads backwards over local code execution environments without destroying personal user config states or registry keys.
@@ -18,7 +18,7 @@ UltimateLauncher executes directly from source via your system's Python distribu
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Mukunth/UltimateLauncher.git
+git clone https://github.com/mukunthpr/UltimateLauncher.git
 cd UltimateLauncher
 
 # 2. Build the lightweight virtual environment
