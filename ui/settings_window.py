@@ -403,6 +403,11 @@ class SettingsWindow(QWidget):
             return
             
         for p in manifest:
+            # Ultimate Launcher JSON-RPC bridge currently strictly supports out-of-process Python executables natively, 
+            # dynamically filtering out compiled C# .dll reflection modules.
+            if p.get("Language", "").lower() not in ["python", "python3"]:
+                continue
+                
             card = QWidget()
             card.setStyleSheet("background: #252525; padding: 12px; border-radius: 8px;")
             cl = QHBoxLayout(card)
@@ -543,7 +548,7 @@ class SettingsWindow(QWidget):
                 line.setFrameShape(QFrame.Shape.VLine)
                 card_layout.addWidget(line)
                 
-                card_layout.addWidget(QLabel("Alias:"))
+                card_layout.addWidget(QLabel("Action Key:"))
                 pre_in = QLineEdit()
                 pre_in.setFixedWidth(80)
                 pre_in.setText(p_config.get("prefix_alias", p.prefix_alias))
