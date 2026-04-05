@@ -16,6 +16,10 @@ from core.config import ConfigManager
 from ui.settings_window import SettingsWindow
 
 def main():
+    if sys.platform == "win32":
+        import ctypes
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("mukunthpr.ultimatelauncher.1.0")
+        
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     

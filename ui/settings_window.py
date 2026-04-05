@@ -41,6 +41,9 @@ class SettingsWindow(QWidget):
         self.setFixedSize(760, 520)
         self.setAttribute(Qt.WidgetAttribute.WA_QuitOnClose, False)
         
+        icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "icon.png")
+        self.setWindowIcon(QIcon(icon_path))
+        
         self.reg_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
         self.app_name = "Ultimate Launcher"
 
@@ -158,18 +161,9 @@ class SettingsWindow(QWidget):
         self._add_sidebar_row("Keyboard & Shortcuts", self._build_shortcuts_tab())
         self._add_sidebar_row("Themes", self._build_themes_tab())
         self._add_sidebar_row("Plugin Store", self._build_store_tab())
+        self._add_sidebar_row("Installed Extensions", self._build_installed_tab())
         self._add_sidebar_row("Advanced", self._build_advanced_tab())
         self._add_sidebar_row("About", self._build_about_tab())
-        
-        # Blank space/Divider
-        div_item = QListWidgetItem("")
-        div_item.setFlags(Qt.ItemFlag.NoItemFlags)
-        self.sidebar.addItem(div_item)
-        
-        # --- Populate Extensions Pages ---
-        if self.plugin_manager:
-            for p in self.plugin_manager.plugins:
-                self._add_sidebar_row(f"{p.name}", self._build_extension_page(p))
                 
         self.sidebar.currentRowChanged.connect(self.stack.setCurrentIndex)
         self.sidebar.setCurrentRow(0)
@@ -500,49 +494,66 @@ class SettingsWindow(QWidget):
         layout.addWidget(desc)
         return page
 
-    def _build_extension_page(self, p):
+    def _build_installed_tab(self):
         page = QWidget()
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(30, 30, 30, 30)
-        layout.setSpacing(20)
+        layout.setContentsMargins(30, 20, 30, 20)
         
-        title = QLabel(p.name)
+        title = QLabel("Installed Extensions")
         title.setStyleSheet("font-size: 20px; font-weight: bold; color: white;")
         layout.addWidget(title)
+        layout.addWidget(QLabel("Manage your dynamically loaded command registries and prefix aliases."))
         
-        p_config = self.config_manager.get("plugins", {}).get(p.id, {})
+        from PyQt6.QtWidgets import QFrame
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        content = QWidget()
+        cl = QVBoxLayout(content)
+        cl.setContentsMargins(0, 10, 0, 10)
+        cl.setSpacing(10)
         
-        # Enabler Switch
-        en_box = QWidget()
-        el = QHBoxLayout(en_box)
-        el.setContentsMargins(0,0,0,0)
-        el.addWidget(QLabel("Enable Extension"))
-        el.addStretch()
-        en_cb = QCheckBox()
-        is_en = p_config.get("enabled", True)
-        en_cb.setChecked(is_en)
-        el.addWidget(en_cb)
-        layout.addWidget(en_box)
-        
-        # Prefix Input
-        pre_box = QWidget()
-        pl = QHBoxLayout(pre_box)
-        pl.setContentsMargins(0,0,0,0)
-        pl.addWidget(QLabel("Prefix Alias Tracker"))
-        pl.addStretch()
-        pre_input = QLineEdit()
-        pre_input.setPlaceholderText("e.g. wm, f, calc")
-        pre_input.setText(p_config.get("prefix_alias", p.prefix_alias))
-        pre_input.setFixedWidth(120)
-        pl.addWidget(pre_input)
-        layout.addWidget(pre_box)
-        
-        btn = QPushButton("Save Extension Config")
-        # Curry callback safely
-        btn.clicked.connect(lambda _, pid=p.id, c=en_cb, pr=pre_input: self._apply_extension(pid, c.isChecked(), pr.text()))
-        layout.addWidget(btn)
-        
-        layout.addStretch()
+        if self.plugin_manager:
+            for p in self.plugin_manager.plugins:
+                card = QWidget()
+                card.setStyleSheet("background: #252525; padding: 12px; border-radius: 8px;")
+                card_layout = QHBoxLayout(card)
+                card_layout.setContentsMargins(10,5,10,5)
+                
+                info = QVBoxLayout()
+                n = QLabel(p.name)
+                n.setStyleSheet("font-weight: 600; font-size: 14px; color: white;")
+                d = QLabel(p.id)
+                d.setStyleSheet("color: #8C8C8C; font-size: 11px;")
+                info.addWidget(n)
+                info.addWidget(d)
+                card_layout.addLayout(info)
+                
+                card_layout.addStretch()
+                
+                en_cb = QCheckBox("Enabled")
+                p_config = self.config_manager.get("plugins", {}).get(p.id, {})
+                en_cb.setChecked(p_config.get("enabled", True))
+                card_layout.addWidget(en_cb)
+                
+                line = QFrame()
+                line.setFrameShape(QFrame.Shape.VLine)
+                card_layout.addWidget(line)
+                
+                card_layout.addWidget(QLabel("Alias:"))
+                pre_in = QLineEdit()
+                pre_in.setFixedWidth(80)
+                pre_in.setText(p_config.get("prefix_alias", p.prefix_alias))
+                card_layout.addWidget(pre_in)
+                
+                save_btn = QPushButton("Save")
+                save_btn.clicked.connect(lambda _, pid=p.id, cb=en_cb, pr=pre_in: self._apply_extension(pid, cb.isChecked(), pr.text()))
+                card_layout.addWidget(save_btn)
+                
+                cl.addWidget(card)
+                
+        cl.addStretch()
+        scroll.setWidget(content)
+        layout.addWidget(scroll)
         return page
 
     def _apply_extension(self, p_id, enabled, prefix):
@@ -558,7 +569,7 @@ class SettingsWindow(QWidget):
                 if p.id == p_id:
                     p.prefix_alias = prefix.strip()
                     break
-        self._prompt_restart("Extension Saved", f"Configuration for '{p_id}' natively applied on disk.")
+        self._prompt_restart("Extension Saved", f"Configuration for '{p_id}' natively applied on disk, and runtime triggers updated globally.")
 
     def on_startup_changed(self, state):
         is_checked = (state == 2)
