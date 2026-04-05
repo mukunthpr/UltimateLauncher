@@ -376,6 +376,10 @@ class SettingsWindow(QWidget):
         
         self.fetch_btn.clicked.connect(self._start_store_fetch)
         layout.addWidget(self.fetch_btn)
+        
+        from PyQt6.QtCore import QTimer
+        QTimer.singleShot(50, self._start_store_fetch)
+        
         return page
 
     def _start_store_fetch(self):

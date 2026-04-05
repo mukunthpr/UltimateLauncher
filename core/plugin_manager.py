@@ -21,8 +21,8 @@ class PluginManager:
                 pass
             
         for filename in os.listdir(plugins_path):
+            filepath = os.path.join(plugins_path, filename)
             if filename.endswith(".py") and filename != "base_plugin.py" and filename != "__init__.py":
-                filepath = os.path.join(plugins_path, filename)
                 module_name = f"plugins.{filename[:-3]}"
                 
                 spec = importlib.util.spec_from_file_location(module_name, filepath)
@@ -59,6 +59,8 @@ class PluginManager:
                             
                         # Wrap the raw JSON into our highly advanced Proxy Class
                         bridge_instance = FlowPluginBridge(filepath, flow_manifest)
+                        
+                        bridge_instance.prefix_alias = flow_manifest.get("ActionKeyword", getattr(bridge_instance, "prefix_alias", ""))
                         
                         # Apply local alias overrides
                         if self.config:
