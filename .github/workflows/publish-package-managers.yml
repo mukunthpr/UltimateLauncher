@@ -18,8 +18,8 @@ jobs:
         run: |
           $repo = "${{ github.repository }}"
           $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/latest"
-          $assets = $release.assets | Where-Object { $_.name -match 'UltimateLauncher-Windows-x64-Setup' }
-          if (-not $assets) { Write-Error "Windows Installer Executable missing natively on GitHub Releases!"; exit 1 }
+          $assets = $release.assets | Where-Object { $_.name -match 'UltimateLauncher-Windows-x64\.zip' }
+          if (-not $assets) { Write-Error "Windows Portable Zip missing natively on GitHub Releases!"; exit 1 }
           echo "INSTALLER_URL=$($assets.browser_download_url)" >> $env:GITHUB_ENV
           echo "VERSION=$($release.tag_name)" >> $env:GITHUB_ENV
         
@@ -27,7 +27,7 @@ jobs:
         uses: vedantmgoyal2009/winget-releaser@v2
         with:
           identifier: mukunthpr.UltimateLauncher
-          installers-regex: '\.exe$' # Traps the Inno Setup executable organically
+          installers-regex: '\.zip$' # Traps the Portable Windows App natively
           token: ${{ secrets.WINGET_TOKEN }} # Explicitly Requires your GitHub PAT mapped internally
 
   publish-homebrew:
