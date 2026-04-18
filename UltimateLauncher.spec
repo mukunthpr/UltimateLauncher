@@ -46,6 +46,7 @@ exe = EXE(
     strip=False,
     upx=True,
     console=False,
+    icon='assets/icon.ico',
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
@@ -67,5 +68,6 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='UltimateLauncher.app',
+    icon='assets/icon.ico',
     bundle_identifier='com.mukunth.ultimatelauncher',
 )

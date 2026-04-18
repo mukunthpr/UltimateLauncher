@@ -66,12 +66,32 @@ jobs:
           cd dist
           mkdir -p debian-package/DEBIAN
           mkdir -p debian-package/opt/UltimateLauncher
+          mkdir -p debian-package/usr/share/applications
+          mkdir -p debian-package/usr/share/icons/hicolor/256x256/apps
+          
+          # Copy binaries and assets
           cp -r UltimateLauncher/* debian-package/opt/UltimateLauncher/
+          cp ../assets/icon.png debian-package/usr/share/icons/hicolor/256x256/apps/ultimatelauncher.png
+          
+          # Generate Desktop Entry
+          cat <<EOF > debian-package/usr/share/applications/ultimatelauncher.desktop
+          [Desktop Entry]
+          Type=Application
+          Name=Ultimate Launcher
+          Comment=High-performance python-based Desktop Launcher.
+          Exec=/opt/UltimateLauncher/UltimateLauncher
+          Icon=ultimatelauncher
+          Terminal=false
+          Categories=Utility;
+          EOF
+          
+          # DEBIAN Control File
           echo "Package: ultimatelauncher" > debian-package/DEBIAN/control
-          echo "Version: 1.0" >> debian-package/DEBIAN/control
+          echo "Version: 1.0.0" >> debian-package/DEBIAN/control
           echo "Architecture: amd64" >> debian-package/DEBIAN/control
           echo "Maintainer: Mukunth P.R" >> debian-package/DEBIAN/control
           echo "Description: High-performance python-based Desktop Launcher." >> debian-package/DEBIAN/control
+          
           dpkg-deb --build debian-package UltimateLauncher-Linux-x64.deb
           mv UltimateLauncher-Linux-x64.deb ../
 
