@@ -1,12 +1,14 @@
 [Setup]
+AppId={{8B196BEA-A8E2-4467-9DF7-B2C33D1488B2}
 AppName=Ultimate Launcher
-AppVersion=1.0.0
+AppVersion=1.0.3
 AppPublisher=Mukunth P.R
 AppPublisherURL=https://github.com/mukunthpr/UltimateLauncher
 DefaultDirName={localappdata}\UltimateLauncher
 DefaultGroupName=Ultimate Launcher
 OutputDir=dist\setup
 OutputBaseFilename=UltimateLauncher_Setup
+SetupIconFile=assets\icon.ico
 UninstallDisplayIcon={app}\UltimateLauncher.exe
 Compression=lzma2/ultra64
 SolidCompression=yes
@@ -23,8 +25,8 @@ Name: "startup"; Description: "Automatically start Ultimate Launcher at login"; 
 Source: "dist\UltimateLauncher\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\Ultimate Launcher"; Filename: "{app}\UltimateLauncher.exe"
-Name: "{autodesktop}\Ultimate Launcher"; Filename: "{app}\UltimateLauncher.exe"; Tasks: desktopicon
+Name: "{group}\Ultimate Launcher"; Filename: "{app}\UltimateLauncher.exe"; IconFilename: "{app}\assets\icon.ico"
+Name: "{autodesktop}\Ultimate Launcher"; Filename: "{app}\UltimateLauncher.exe"; IconFilename: "{app}\assets\icon.ico"; Tasks: desktopicon
 
 [Registry]
 Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Ultimate Launcher"; ValueData: """{app}\UltimateLauncher.exe"""; Tasks: startup
