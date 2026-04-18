@@ -41,33 +41,46 @@ jobs:
       - name: Build with PyInstaller
         run: pyinstaller UltimateLauncher.spec --noconfirm
 
+      - name: Compile Inno Setup Installer (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          # Use the pre-installed Inno Setup compiler available on GitHub Actions windows-latest runners natively
+          iscc build_installer.iss
+
+      - name: Prepare Upload Artifact (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          move dist\setup\UltimateLauncher_Setup.exe UltimateLauncher-Windows-x64-Setup.exe
+
       - name: Prepare Upload Artifact (macOS)
         if: runner.os == 'macOS'
         run: |
-          # Compress the .app bundle since GitHub doesn't natively upload directories gracefully standalone
           cd dist
-          tar -czf UltimateLauncher-macOS-x64.tar.gz UltimateLauncher.app
-          mv UltimateLauncher-macOS-x64.tar.gz ../
+          npm install -g create-dmg
+          create-dmg UltimateLauncher.app || true
+          mv *.dmg ../UltimateLauncher-macOS-x64.dmg
 
       - name: Prepare Upload Artifact (Linux)
         if: runner.os == 'Linux'
         run: |
           cd dist
-          tar -czf UltimateLauncher-Linux-x64.tar.gz UltimateLauncher
-          mv UltimateLauncher-Linux-x64.tar.gz ../
-
-      - name: Prepare Upload Artifact (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          # Compress the raw PyInstaller outputs explicitly directly natively circumventing rigid Inno Setup pipelines!
-          Compress-Archive -Path "dist\UltimateLauncher" -DestinationPath "UltimateLauncher-Windows-x64.zip"
+          mkdir -p debian-package/DEBIAN
+          mkdir -p debian-package/opt/UltimateLauncher
+          cp -r UltimateLauncher/* debian-package/opt/UltimateLauncher/
+          echo "Package: ultimatelauncher" > debian-package/DEBIAN/control
+          echo "Version: 1.0" >> debian-package/DEBIAN/control
+          echo "Architecture: amd64" >> debian-package/DEBIAN/control
+          echo "Maintainer: Mukunth P.R" >> debian-package/DEBIAN/control
+          echo "Description: High-performance python-based Desktop Launcher." >> debian-package/DEBIAN/control
+          dpkg-deb --build debian-package UltimateLauncher-Linux-x64.deb
+          mv UltimateLauncher-Linux-x64.deb ../
 
       - name: Upload Windows Asset
         if: runner.os == 'Windows'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'Continuous-Build' }}
-          files: UltimateLauncher-Windows-x64.zip
+          files: UltimateLauncher-Windows-x64-Setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -76,7 +89,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'Continuous-Build' }}
-          files: UltimateLauncher-macOS-x64.tar.gz
+          files: UltimateLauncher-macOS-x64.dmg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -85,6 +98,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'Continuous-Build' }}
-          files: UltimateLauncher-Linux-x64.tar.gz
+          files: UltimateLauncher-Linux-x64.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

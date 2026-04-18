@@ -14,6 +14,7 @@ from core.hotkey import HotkeyManager
 from core.plugin_manager import PluginManager
 from core.config import ConfigManager
 from ui.settings_window import SettingsWindow
+from ui.onboarding import OnboardingWindow
 
 def main():
     if sys.platform == "win32":
@@ -81,6 +82,12 @@ def main():
     window.search_box.setFocus()
 
     hotkey_mgr.start()
+
+    if config_mgr.get("first_time_launch", True):
+        # Prevent hiding when user clicks "Skip"
+        app.setQuitOnLastWindowClosed(False)
+        onboarding = OnboardingWindow(config_mgr)
+        onboarding.exec()
 
     sys.exit(app.exec())
 

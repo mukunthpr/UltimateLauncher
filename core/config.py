@@ -6,7 +6,8 @@ class ConfigManager:
         self.config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config.json")
         self.defaults = {
             "hotkey": "alt+space",
-            "run_on_startup": False
+            "run_on_startup": False,
+            "first_time_launch": True
         }
         self.config = self.load()
 
