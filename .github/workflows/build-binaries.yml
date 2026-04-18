@@ -39,7 +39,11 @@ jobs:
           pip install pyinstaller
 
       - name: Build with PyInstaller
-        run: pyinstaller UltimateLauncher.spec --noconfirm
+        run: |
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            sips -s format icns assets/icon.png --out assets/icon.icns
+          fi
+          pyinstaller UltimateLauncher.spec --noconfirm
 
       - name: Compile Inno Setup Installer (Windows)
         if: runner.os == 'Windows'
