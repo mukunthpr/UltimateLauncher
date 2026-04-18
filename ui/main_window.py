@@ -156,11 +156,9 @@ class LauncherWindow(QWidget):
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         
         # We NO LONGER call BlurWindow because Windows DWM will natively paint frosted glass
-        # across the ENTIRE physical bounding box (740x520), which visibly exposes the 20px transparent 
-        # margins we need to draw the drop-shadow! We must rely solely on Qt's RGBA.
+        # across the ENTIRE physical bounding box. We remove artificial shadows to prevent the "larger border" bug natively!
         
-        # Need margins for drop shadow clipping
-        self.setFixedSize(700 + 40, 480 + 40)
+        self.setFixedSize(700, 480)
         
         # Compile XAML Flow Launcher theme natively
         from core.config import ConfigManager
@@ -170,21 +168,15 @@ class LauncherWindow(QWidget):
         active = cfg.get("active_theme", "default.json")
         self.setStyleSheet(tm.compile_theme(active))
         
-        # Main Layout
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 20, 20, 20) # 20px padding around window for shadow
+        layout.setContentsMargins(0, 0, 0, 0) # 0px padding! No invisible boundary borders!
         layout.setSpacing(0)
 
         self.container = QWidget(self)
         self.container.setObjectName("MainContainer")
         self.container.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         
-        # Drop shadow geometry
-        shadow = QGraphicsDropShadowEffect(self)
-        shadow.setBlurRadius(30)
-        shadow.setColor(QColor(0, 0, 0, 180))
-        shadow.setOffset(0, 8)
-        self.container.setGraphicsEffect(shadow)
+        # Drop shadow geometry dynamically stripped to prevent large boundary bugs on older DWM engines
         
         container_layout = QVBoxLayout(self.container)
         container_layout.setContentsMargins(0, 0, 0, 0)
@@ -298,13 +290,13 @@ class LauncherWindow(QWidget):
             self.results_list.hide()
             self.footer.hide()
             self.divider.hide()
-            self.setFixedSize(740, 68 + 40) # Ultra-compact height (Search Bar only) + margins
+            self.setFixedSize(700, 68) # Ultra-compact height (Search Bar only) purely strictly
             return
         else:
             self.results_list.show()
             self.footer.show()
             self.divider.show()
-            self.setFixedSize(740, 480 + 40) # Expanded default height + margins
+            self.setFixedSize(700, 480) # Expanded default height precisely securely
         # --------------------------
         
         results = []
