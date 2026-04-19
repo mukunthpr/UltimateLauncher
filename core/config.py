@@ -1,9 +1,21 @@
 import os
 import json
 
+import sys
+from pathlib import Path
+
 class ConfigManager:
     def __init__(self):
-        self.config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config.json")
+        home = Path.home()
+        if sys.platform == "win32":
+            config_dir = home / "AppData" / "Local" / "UltimateLauncher"
+        elif sys.platform == "darwin":
+            config_dir = home / "Library" / "Application Support" / "UltimateLauncher"
+        else:
+            config_dir = home / ".config" / "UltimateLauncher"
+            
+        config_dir.mkdir(parents=True, exist_ok=True)
+        self.config_path = str(config_dir / "config.json")
         self.defaults = {
             "hotkey": "alt+space",
             "run_on_startup": False,

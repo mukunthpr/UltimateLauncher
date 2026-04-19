@@ -2,8 +2,13 @@ import sys
 import os
 import traceback
 
+def get_base_path():
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        return sys._MEIPASS
+    return os.path.dirname(os.path.abspath(__file__))
+
 def handle_exception(exc_type, exc_value, exc_traceback):
-    with open(os.path.join(os.path.dirname(__file__), "crash.log"), "w") as f:
+    with open(os.path.join(get_base_path(), "crash.log"), "w") as f:
         traceback.print_exception(exc_type, exc_value, exc_traceback, file=f)
     sys.__excepthook__(exc_type, exc_value, exc_traceback)
 
@@ -25,7 +30,7 @@ def main():
     app.setQuitOnLastWindowClosed(False)
     
     # Load stylesheet
-    style_path = os.path.join(os.path.dirname(__file__), "ui", "styles.qss")
+    style_path = os.path.join(get_base_path(), "ui", "styles.qss")
     try:
         with open(style_path, "r") as f:
             app.setStyleSheet(f.read())
@@ -57,7 +62,7 @@ def main():
     
     # Setup User Icon
     from PyQt6.QtGui import QIcon
-    icon_path = os.path.join(os.path.dirname(__file__), "assets", "icon.png")
+    icon_path = os.path.join(get_base_path(), "assets", "icon.png")
     app_icon = QIcon(icon_path) if os.path.exists(icon_path) else app.style().standardIcon(QStyle.StandardPixmap.SP_ComputerIcon)
     app.setWindowIcon(app_icon)
     

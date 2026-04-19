@@ -57,7 +57,17 @@ jobs:
         run: |
           cd dist
           npm install -g create-dmg
-          create-dmg UltimateLauncher.app || true
+          create-dmg \
+            --volname "Ultimate Launcher Installer" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --icon "UltimateLauncher.app" 200 190 \
+            --hide-extension "UltimateLauncher.app" \
+            --app-drop-link 400 190 \
+            --volicon "../assets/icon.icns" \
+            "UltimateLauncher-macOS-x64.dmg" \
+            "UltimateLauncher.app" || true
           mv *.dmg ../UltimateLauncher-macOS-x64.dmg
 
       - name: Prepare Upload Artifact (Linux)
