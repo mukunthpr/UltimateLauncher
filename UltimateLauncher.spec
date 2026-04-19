@@ -1,7 +1,11 @@
 # -*- mode: python ; coding: utf-8 -*-
 import os
+import sys
 
 block_cipher = None
+
+icon_exe = 'assets/icon.ico' if sys.platform == 'win32' else None
+icon_bundle = 'assets/icon.icns' if sys.platform == 'darwin' else None
 
 a = Analysis(
     ['main.py'],
@@ -46,7 +50,7 @@ exe = EXE(
     strip=False,
     upx=True,
     console=False,
-    icon='assets/icon.ico',
+    icon=icon_exe,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
@@ -68,6 +72,6 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='UltimateLauncher.app',
-    icon='assets/icon.ico',
+    icon=icon_bundle,
     bundle_identifier='com.mukunth.ultimatelauncher',
 )
