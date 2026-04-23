@@ -6,9 +6,9 @@
 
 ## ✨ Features
 
-- **Feauture 1**: Clean, minimalistic, keyboard-first user interface sporting fluid component rendering, contextual actions, and asynchronous non-blocking search algorithms.
-- **Deep Plugin Ecosystem**: Native compatibility with the [Flow Launcher](https://github.com/Flow-Launcher/Flow.Launcher) registry. Download, extract, and execute C#/Python community extensions spanning calculators, clipboard managers, web searchers, and dictionary definitions all completely natively.
-- **Advanced Contextual Math Engine**: Dedicated complex equation evaluator rendering customized large-scale widget panels seamlessly outside standard list bindings.
+- **Feature 1**: Clean, minimalistic, keyboard-first user interface sporting fluid component rendering, contextual actions, and asynchronous non-blocking search algorithms.
+- **Deep Plugin Ecosystem**: Native compatibility with the [Flow Launcher](https://github.com/Flow-Launcher/Flow.Launcher) registry. Download, extract, and execute C#/Python community extensions spanning calculators, clipboard managers, web searchers, and dictionary definitions, all completely natively.
+- **Advanced Contextual Math Engine**: Dedicated complex equation evaluator rendering customised large-scale widget panels seamlessly outside standard list bindings.
 - **Automated Update Subsystem**: Connects directly to the GitHub Release API to seamlessly deploy `.zip` payloads backwards over local code execution environments without destroying personal user config states or registry keys.
 - **Theme Transpiler**: Directly mathematically transpiles XAML and JSON styles (from standard Flow community themes) into active global PyQt6 CSS overrides asynchronously on launch.
 
@@ -19,6 +19,7 @@ The fastest way to install Ultimate Launcher is to download the natively compile
 - **[Download Windows Installer (.exe)](https://github.com/mukunthpr/UltimateLauncher/releases/download/v1.0.0/UltimateLauncher-Windows-x64-Setup.exe)**
 - **[Download macOS Installer (.dmg)](https://github.com/mukunthpr/UltimateLauncher/releases/download/v1.0.0/UltimateLauncher-macOS-x64.dmg)**
 - **[Download Linux Installer (.deb)](https://github.com/mukunthpr/UltimateLauncher/releases/download/v1.0.0/UltimateLauncher-Linux-x64.deb)**
+- **Or through winget(homebrew and apt coming soon):** ```winget install MukunthP.R.UltimateLauncher``` 
 
 *(Note: Apple MacOS and Windows users may natively need to authorize the application actively via System Settings or Windows SmartScreen as the current build drops un-signed.)*
 
