@@ -19,7 +19,8 @@ The fastest way to install Ultimate Launcher is to download the natively compile
 - **[Download Windows Installer (.exe)](https://github.com/mukunthpr/UltimateLauncher/releases/download/v1.0.0/UltimateLauncher-Windows-x64-Setup.exe)**
 - **[Download macOS Installer (.dmg)](https://github.com/mukunthpr/UltimateLauncher/releases/download/v1.0.0/UltimateLauncher-macOS-x64.dmg)**
 - **[Download Linux Installer (.deb)](https://github.com/mukunthpr/UltimateLauncher/releases/download/v1.0.0/UltimateLauncher-Linux-x64.deb)**
-- **Or through winget(homebrew and apt coming soon):** ```winget install MukunthP.R.UltimateLauncher``` 
+- **Or through winget(homebrew and apt coming soon):**
+- ```winget install MukunthP.R.UltimateLauncher``` 
 
 *(Note: Apple MacOS and Windows users may natively need to authorize the application actively via System Settings or Windows SmartScreen as the current build drops un-signed.)*
 
